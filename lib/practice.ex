@@ -16,10 +16,19 @@ defmodule Practice do
     Practice.Calc.calc(expr)
   end
 
-  def factor(x) do
-    # Maybe delegate this too.
-    [1,2,x]
+  def factor(x) when is_integer(x) do
+    Practice.Calc.factor(x)
   end
 
-  # TODO: Add a palindrome? function.
+  def factor(x) do
+    case Integer.parse(x) do
+      {n, _} -> Practice.Calc.factor(n)
+      :error -> "error"
+    end
+  end
+
+  def palindrome(string) do
+    String.reverse(string) == string
+  end
+
 end
