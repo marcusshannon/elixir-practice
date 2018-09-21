@@ -33,51 +33,27 @@ defmodule Practice.Calc do
     {[b | stack1], [a | rest]}
   end
 
-  def calculate(x, ["+", b, c | t]) when is_float(b) and is_float(c) do
-    [x, c + b | t]
+  def calculate("+", [b, c | t]) when is_float(b) and is_float(c) do
+    [c + b | t]
   end
 
-  def calculate(x, ["-", b, c | t]) when is_float(b) and is_float(c) do
-    [x, c - b | t]
+  def calculate("-", [b, c | t]) when is_float(b) and is_float(c) do
+    [c - b | t]
   end
 
-  def calculate(x, ["*", b, c | t]) when is_float(b) and is_float(c) do
-    [x, c * b | t]
+  def calculate("*", [b, c | t]) when is_float(b) and is_float(c) do
+    [c * b | t]
   end
 
-  def calculate(x, ["/", b, c | t]) when is_float(b) and is_float(c) do
-    [x, c / b | t]
+  def calculate("/", [b, c | t]) when is_float(b) and is_float(c) do
+    [c / b | t]
   end
 
   def calculate(x, list) do
     [x | list]
   end
 
-  def final_operation(["+", b, c]) do
-    b + c
-  end
-
-  def final_operation(["-", b, c]) do
-    c - b
-  end
-
-  def final_operation(["*", b, c]) do
-    c * b
-  end
-
-  def final_operation(["/", b, c]) do
-    c / b
-  end
-
-  def final_operation([n]) when is_float(n) do
-    n
-  end
-
-  # end
-
   def calc(expr) do
-    # This should handle +,-,*,/ with order of operations,
-    # but doesn't need to handle parens.
     res =
       expr
       |> String.split(~r/\s+/)
@@ -87,7 +63,7 @@ defmodule Practice.Calc do
     res2 =
       Enum.reverse(Enum.concat(Enum.reverse(elem(res, 1)), elem(res, 0)))
       |> Enum.reduce([], &calculate/2)
-      |> final_operation()
+      |> hd
 
     res2
   end
@@ -107,5 +83,4 @@ defmodule Practice.Calc do
   def factor(x) do
     factor(x, 2, [])
   end
-
 end
